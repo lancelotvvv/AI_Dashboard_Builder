@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDashboardStore } from '@/store/dashboard.store'
 import {
   TrendingUp, BarChart3, Table, Type, LayoutGrid, Filter,
-  ChevronDown, ChevronRight,
+  ChevronDown, ChevronRight, ChevronLeft, PanelLeftOpen,
   BarChart, LineChart, PieChart, AreaChart, ScatterChart,
 } from 'lucide-react'
 import type { WidgetSpec } from '@/schemas/dashboard.schema'
@@ -18,13 +18,36 @@ const chartSubtypes: { chartType: string; label: string; icon: LucideIcon }[] = 
   { chartType: 'scatter', label: 'Scatter', icon: ScatterChart },
 ]
 
-export function WidgetPalette() {
+export function WidgetPalette({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const addWidget = useDashboardStore(s => s.addWidget)
   const [chartsOpen, setChartsOpen] = useState(false)
 
+  if (collapsed) {
+    return (
+      <div className="w-10 glass-card border-r border-white/60 flex flex-col items-center py-3 shrink-0 rounded-none">
+        <button
+          onClick={onToggle}
+          className="p-1.5 hover:bg-white/50 rounded-lg text-slate-400 hover:text-slate-600 transition-colors"
+          title="Expand palette"
+        >
+          <PanelLeftOpen size={16} />
+        </button>
+      </div>
+    )
+  }
+
   return (
     <div className="w-56 glass-card border-r border-white/60 p-4 flex flex-col gap-2 shrink-0 rounded-none overflow-y-auto">
-      <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Widgets</h2>
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Widgets</h2>
+        <button
+          onClick={onToggle}
+          className="p-1 hover:bg-white/50 rounded text-slate-400 hover:text-slate-600 transition-colors"
+          title="Collapse palette"
+        >
+          <ChevronLeft size={14} />
+        </button>
+      </div>
 
       {/* Filter */}
       <PaletteItem

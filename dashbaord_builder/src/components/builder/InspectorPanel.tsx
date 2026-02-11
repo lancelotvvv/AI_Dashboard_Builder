@@ -3,7 +3,7 @@ import { useDashboardStore, useUISelectionStore } from '@/store/dashboard.store'
 import { getWidgetEntry } from '@/registry/widget-registry'
 import { DataBindingUI } from './DataBindingUI'
 import { useDataProvider } from '@/providers/provider-context'
-import { ArrowLeft, Settings } from 'lucide-react'
+import { ArrowLeft, Settings, X } from 'lucide-react'
 import type { z } from 'zod'
 import type { ContainerConfig, CellSpec } from '@/schemas/widget-configs.schema'
 import type { DatasetInfo, FieldDef } from '@/providers/data-provider.interface'
@@ -259,31 +259,32 @@ function SchemaForm({ schema, values, onChange, fields = [], datasets = [] }: {
   )
 }
 
-export function InspectorPanel() {
+export function InspectorPanel({ onClose }: { onClose: () => void }) {
   const selectedId = useDashboardStore(s => s.selectedWidgetId)
   const widget = useDashboardStore(s => s.spec.widgets.find(w => w.id === s.selectedWidgetId))
   const selectedCellIndex = useUISelectionStore(s => s.selectedCellIndex)
 
   if (!selectedId || !widget) {
-    return <PageSettingsPanel />
+    return <PageSettingsPanel onClose={onClose} />
   }
 
   if (widget.type === 'container' && selectedCellIndex != null) {
     const containerConfig = widget.config as ContainerConfig
     const cell = containerConfig.cells?.[selectedCellIndex] as CellSpec | null | undefined
     if (cell) {
-      return <CellInspector widgetId={selectedId} cell={cell} cellIndex={selectedCellIndex} containerConfig={containerConfig} />
+      return <CellInspector widgetId={selectedId} cell={cell} cellIndex={selectedCellIndex} containerConfig={containerConfig} onClose={onClose} />
     }
   }
 
-  return <WidgetInspector widgetId={selectedId} widget={widget} />
+  return <WidgetInspector widgetId={selectedId} widget={widget} onClose={onClose} />
 }
 
-function CellInspector({ widgetId, cell, cellIndex, containerConfig }: {
+function CellInspector({ widgetId, cell, cellIndex, containerConfig, onClose }: {
   widgetId: string
   cell: CellSpec
   cellIndex: number
   containerConfig: ContainerConfig
+  onClose: () => void
 }) {
   const updateConfig = useDashboardStore(s => s.updateWidgetConfig)
   const selectCell = useUISelectionStore(s => s.selectCell)
@@ -309,12 +310,15 @@ function CellInspector({ widgetId, cell, cellIndex, containerConfig }: {
   return (
     <div className="w-72 glass-card border-l border-white/60 p-4 shrink-0 overflow-y-auto space-y-6 rounded-none">
       <div>
-        <button
-          onClick={() => selectCell(null)}
-          className="flex items-center gap-1.5 text-xs text-tech-blue hover:text-tech-purple mb-3"
-        >
-          <ArrowLeft size={12} /> Back to Container
-        </button>
+        <div className="flex items-center justify-between mb-3">
+          <button
+            onClick={() => selectCell(null)}
+            className="flex items-center gap-1.5 text-xs text-tech-blue hover:text-tech-purple"
+          >
+            <ArrowLeft size={12} /> Back to Container
+          </button>
+          <button onClick={onClose} className="p-1 hover:bg-white/50 rounded text-slate-400 hover:text-slate-600" title="Close panel"><X size={14} /></button>
+        </div>
         <h3 className="text-xs font-semibold text-slate-400 uppercase mb-2">Cell {cellIndex + 1} — {cell.type}</h3>
         <div>
           <label className="text-xs text-slate-400">Title</label>
@@ -356,9 +360,10 @@ function CellInspector({ widgetId, cell, cellIndex, containerConfig }: {
   )
 }
 
-function WidgetInspector({ widgetId, widget }: {
+function WidgetInspector({ widgetId, widget, onClose }: {
   widgetId: string
   widget: { type: string; title: string; config: Record<string, unknown>; dataBinding?: { datasetId: string } }
+  onClose: () => void
 }) {
   const updateConfig = useDashboardStore(s => s.updateWidgetConfig)
   const updateTitle = useDashboardStore(s => s.updateWidgetTitle)
@@ -371,7 +376,10 @@ function WidgetInspector({ widgetId, widget }: {
   return (
     <div className="w-72 glass-card border-l border-white/60 p-4 shrink-0 overflow-y-auto space-y-6 rounded-none">
       <div>
-        <h3 className="text-xs font-semibold text-slate-400 uppercase mb-2">Widget</h3>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-xs font-semibold text-slate-400 uppercase">Widget</h3>
+          <button onClick={onClose} className="p-1 hover:bg-white/50 rounded text-slate-400 hover:text-slate-600" title="Close panel"><X size={14} /></button>
+        </div>
         <div>
           <label className="text-xs text-slate-400">Title</label>
           <input
@@ -435,7 +443,7 @@ const layoutModeOptions = [
 
 const widthPresets = [960, 1200, 1440, 1920] as const
 
-function PageSettingsPanel() {
+function PageSettingsPanel({ onClose }: { onClose: () => void }) {
   const pageSettings = useDashboardStore(s => s.spec.pageSettings)
   const updatePageSettings = useDashboardStore(s => s.updatePageSettings)
   const layoutMode = pageSettings?.layoutMode ?? 'scrollable'
@@ -445,7 +453,8 @@ function PageSettingsPanel() {
     <div className="w-72 glass-card border-l border-white/60 p-4 shrink-0 overflow-y-auto space-y-6 rounded-none">
       <div className="flex items-center gap-2">
         <Settings size={16} className="text-tech-blue" />
-        <h3 className="text-xs font-semibold text-slate-400 uppercase">Page Settings</h3>
+        <h3 className="text-xs font-semibold text-slate-400 uppercase flex-1">Page Settings</h3>
+        <button onClick={onClose} className="p-1 hover:bg-white/50 rounded text-slate-400 hover:text-slate-600" title="Close panel"><X size={14} /></button>
       </div>
 
       <div className="space-y-4">

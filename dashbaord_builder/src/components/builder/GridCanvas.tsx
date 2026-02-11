@@ -3,6 +3,7 @@ import { Responsive } from 'react-grid-layout'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { useDashboardStore } from '@/store/dashboard.store'
+import { useDeveloperStore } from '@/store/developer.store'
 import { WidgetFrame } from '@/components/widgets/WidgetFrame'
 import { WidgetRenderer } from '@/components/viewer/WidgetRenderer'
 import type { WidgetSpec } from '@/schemas/dashboard.schema'
@@ -23,12 +24,13 @@ function useWidth(ref: React.RefObject<HTMLDivElement | null>) {
 // Fixed page aspect ratios (width:height)
 const FIXED_RATIOS = { 'portrait-fixed': 0.75, 'landscape-fixed': 16 / 9 } as const
 
-export function GridCanvas() {
+export function GridCanvas({ zoom = 1 }: { zoom?: number }) {
   const spec = useDashboardStore(s => s.spec)
   const selectedWidgetId = useDashboardStore(s => s.selectedWidgetId)
   const updateLayout = useDashboardStore(s => s.updateLayout)
   const selectWidget = useDashboardStore(s => s.selectWidget)
   const addWidget = useDashboardStore(s => s.addWidget)
+  const devMode = useDeveloperStore(s => s.devMode)
   const containerRef = useRef<HTMLDivElement>(null)
   const rawWidth = useWidth(containerRef)
 
@@ -77,6 +79,14 @@ export function GridCanvas() {
     >
       {gridWidth > 0 && (
         <div
+          style={{ transformOrigin: 'top center', transform: zoom !== 1 ? `scale(${zoom})` : undefined, width: zoom !== 1 ? `${100 / zoom}%` : undefined }}
+        >
+        {devMode && (
+          <div className="text-[11px] text-amber-600 bg-amber-50/90 backdrop-blur-sm border border-amber-200/50 rounded-lg px-4 py-1.5 mb-3" style={{ maxWidth: `${pageWidth}px`, margin: '0 auto 12px' }}>
+            Editing code directly overrides visual config. Inspector changes won't apply while custom code is active.
+          </div>
+        )}
+        <div
           className={`mx-auto relative page-contour rounded-lg ${isFixed && hasOverflow ? 'page-contour-overflow' : ''}`}
           style={{
             maxWidth: `${pageWidth}px`,
@@ -100,8 +110,8 @@ export function GridCanvas() {
           <Responsive
             width={gridWidth}
             layouts={{ lg: spec.layout }}
-            breakpoints={{ lg: 1200, md: 996, sm: 768 }}
-            cols={{ lg: 12, md: 10, sm: 6 }}
+            breakpoints={{ lg: 0 }}
+            cols={{ lg: 12 }}
             rowHeight={rowHeight}
             isDraggable
             isResizable
@@ -120,6 +130,7 @@ export function GridCanvas() {
               </div>
             ))}
           </Responsive>
+        </div>
         </div>
       )}
       {spec.widgets.length === 0 && (

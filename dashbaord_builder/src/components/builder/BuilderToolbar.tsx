@@ -2,12 +2,16 @@ import { useDashboardStore } from '@/store/dashboard.store'
 import { saveDashboard, exportDashboard, importDashboard } from '@/store/persistence'
 import { useTemporalStore } from '@/store/dashboard.store.temporal'
 import { useDeveloperStore } from '@/store/developer.store'
-import { Save, Download, Upload, Undo2, Redo2, Sparkles, Home, Settings, Code2 } from 'lucide-react'
+import { Save, Download, Upload, Undo2, Redo2, Sparkles, Home, Settings, Code2, ZoomIn } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AiPromptModal } from './AiPromptModal'
 
-export function BuilderToolbar() {
+export function BuilderToolbar({ zoom, onZoomChange, onOpenInspector }: {
+  zoom: number
+  onZoomChange: (z: number) => void
+  onOpenInspector: () => void
+}) {
   const spec = useDashboardStore(s => s.spec)
   const setSpec = useDashboardStore(s => s.setSpec)
   const setName = useDashboardStore(s => s.setName)
@@ -63,7 +67,7 @@ export function BuilderToolbar() {
           value={spec.name}
           onChange={e => setName(e.target.value)}
         />
-        <button onClick={() => selectWidget(null)} className="p-2 hover:bg-white/50 rounded-lg text-slate-500" title="Page Settings"><Settings size={18} /></button>
+        <button onClick={() => { selectWidget(null); onOpenInspector() }} className="p-2 hover:bg-white/50 rounded-lg text-slate-500" title="Page Settings"><Settings size={18} /></button>
         <button
           onClick={() => { if (!devMode) setShowDevWarning(true); else toggleDevMode() }}
           className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors ${devMode ? 'bg-tech-purple text-white' : 'bg-slate-200/60 text-slate-500 hover:bg-slate-200'}`}
@@ -78,6 +82,26 @@ export function BuilderToolbar() {
         <div className="flex-1" />
         <button onClick={() => undo()} className="p-2 hover:bg-white/50 rounded-lg text-slate-500" title="Undo"><Undo2 size={18} /></button>
         <button onClick={() => redo()} className="p-2 hover:bg-white/50 rounded-lg text-slate-500" title="Redo"><Redo2 size={18} /></button>
+        <div className="w-px h-6 bg-slate-200/60" />
+        <div className="flex items-center gap-1.5">
+          <ZoomIn size={14} className="text-slate-400" />
+          <input
+            type="range"
+            className="w-20 accent-tech-blue"
+            min={0.5}
+            max={1.5}
+            step={0.1}
+            value={zoom}
+            onChange={e => onZoomChange(Number(e.target.value))}
+          />
+          <button
+            onClick={() => onZoomChange(1)}
+            className="text-[11px] text-slate-500 hover:text-tech-blue min-w-[32px] text-center"
+            title="Reset zoom to 100%"
+          >
+            {Math.round(zoom * 100)}%
+          </button>
+        </div>
         <div className="w-px h-6 bg-slate-200/60" />
         <button onClick={handleSave} className="flex items-center gap-1.5 px-3 py-1.5 btn-gradient rounded-lg text-sm">
           <Save size={14} /> Save

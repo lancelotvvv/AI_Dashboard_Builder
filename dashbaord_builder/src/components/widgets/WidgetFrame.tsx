@@ -100,9 +100,6 @@ function FullCodeEditor({ widget, onApply, onReset }: {
 
   return (
     <div className="h-full flex flex-col p-2 gap-1.5">
-      <div className="text-[10px] text-amber-600 bg-amber-50 rounded px-2 py-1 shrink-0">
-        Editing code directly overrides visual config. Inspector changes won't apply while custom code is active.
-      </div>
       <textarea
         className="flex-1 min-h-0 w-full font-mono text-[11px] leading-relaxed text-slate-700 bg-slate-50 border border-slate-200 rounded-lg p-2 resize-none focus:ring-2 focus:ring-tech-blue/30 focus:border-tech-blue outline-none"
         value={text}

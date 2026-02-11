@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDashboardStore } from '@/store/dashboard.store'
 import { loadDashboard } from '@/store/persistence'
@@ -11,6 +11,17 @@ export function BuilderShell() {
   const { id } = useParams<{ id: string }>()
   const setSpec = useDashboardStore(s => s.setSpec)
   const newDashboard = useDashboardStore(s => s.newDashboard)
+  const selectedWidgetId = useDashboardStore(s => s.selectedWidgetId)
+  const [zoom, setZoom] = useState(1)
+  const [paletteOpen, setPaletteOpen] = useState(true)
+  const [inspectorOpen, setInspectorOpen] = useState(true)
+
+  // Auto-open inspector when a widget is selected
+  useEffect(() => {
+    if (selectedWidgetId != null) {
+      setInspectorOpen(true)
+    }
+  }, [selectedWidgetId])
 
   useEffect(() => {
     if (id) {
@@ -31,11 +42,11 @@ export function BuilderShell() {
       </div>
 
       <div className="relative z-10 h-screen flex flex-col">
-        <BuilderToolbar />
+        <BuilderToolbar zoom={zoom} onZoomChange={setZoom} onOpenInspector={() => setInspectorOpen(true)} />
         <div className="flex flex-1 min-h-0">
-          <WidgetPalette />
-          <GridCanvas />
-          <InspectorPanel />
+          <WidgetPalette collapsed={!paletteOpen} onToggle={() => setPaletteOpen(o => !o)} />
+          <GridCanvas zoom={zoom} />
+          {inspectorOpen && <InspectorPanel onClose={() => setInspectorOpen(false)} />}
         </div>
       </div>
     </div>

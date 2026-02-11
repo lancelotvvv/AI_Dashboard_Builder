@@ -5,7 +5,7 @@
 
 ---
 
-## ✨ The Problem with “Low-Code”
+## The Problem with “Low-Code”
 
 PowerBI, Tableau, Looker — they all promise **“anyone can build dashboards.”**  
 But anyone who’s actually used them knows the truth: you spend more time **fighting the tool** than building the thing.
@@ -16,7 +16,7 @@ But anyone who’s actually used them knows the truth: you spend more time **fig
 
 ---
 
-## 🚀 The Shift: AI Writes Real Code
+## The Shift: AI Writes Real Code
 
 Meanwhile, AI models have gotten *really* good at writing **TypeScript**.
 

@@ -111,7 +111,7 @@ src/
 
 ## Implementation Roadmap
 
-### Phase 1: Builder Foundation (Done)
+### Phase 1: Builder Foundation (In Progress)
 
 Build the core dashboard editor with all the interfaces the AI will need.
 
@@ -127,6 +127,7 @@ Build the core dashboard editor with all the interfaces the AI will need.
 - [x] Container widget (nested grid of sub-widgets)
 - [x] Collapsible palette, closeable inspector, zoom slider
 - [x] AI tool interface defined (`tools.ts`) with Zod-validated tool schemas
+- [ ] Continuing improvements
 
 ### Phase 2: LLM Integration (Next)
 

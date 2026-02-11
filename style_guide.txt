@@ -1,0 +1,126 @@
+Neural Light Design System
+
+This design system is built on a "Paper White" foundation with high-tech atmospheric layers. Use the following snippets to replicate the "AI Tech" look in your own projects.
+
+1. Tailwind Configuration
+
+Add this to your tailwind.config.js to get the specific color palette and custom animations.
+
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      colors: {
+        paper: {
+          50: '#f8fafc',  // Base background
+          100: '#f1f5f9', // Hover states
+        },
+        tech: {
+          blue: '#3b82f6',
+          purple: '#8b5cf6',
+          mint: '#10b981',
+        }
+      },
+      animation: {
+        'aurora': 'aurora 20s infinite linear',
+        'float': 'float 6s ease-in-out infinite',
+      },
+      keyframes: {
+        aurora: {
+          '0%': { transform: 'rotate(0deg) scale(1)' },
+          '50%': { transform: 'rotate(180deg) scale(1.2)' },
+          '100%': { transform: 'rotate(360deg) scale(1)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        }
+      }
+    }
+  }
+}
+
+
+2. Global CSS Styles
+
+These styles handle the "Aurora" background blur and the premium Glassmorphism effect.
+
+/* --- THE AURORA BACKDROP --- */
+.aurora-container {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: 0;
+    filter: blur(100px);
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+.aurora-element {
+    position: absolute;
+    width: 40vw;
+    height: 40vw;
+    border-radius: 50%;
+    animation: aurora 30s infinite linear;
+}
+
+/* --- GLASSMORPHISM COMPONENTS --- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transform: translateY(-2px);
+}
+
+/* --- TYPOGRAPHY --- */
+.text-ai-gradient {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+3. Reusable HTML Components
+
+The Background Aurora
+
+Place this at the top of your <body>.
+
+<div class="aurora-container">
+    <div class="aurora-element bg-blue-400 top-[20%] left-[20%]"></div>
+    <div class="aurora-element bg-purple-300 top-[50%] left-[60%] animation-delay-2000"></div>
+    <div class="aurora-element bg-emerald-200 top-[10%] left-[70%]"></div>
+</div>
+
+
+The Metric Card
+
+<div class="glass-card rounded-[2rem] p-8">
+    <p class="text-sm font-medium text-slate-500 mb-1">Total Tokens</p>
+    <h3 class="text-4xl font-bold text-slate-900 tracking-tight">8.4M</h3>
+</div>
+
+
+4. Particle Logic (Vanilla JS)
+
+This adds the interactive "Neural Net" feel to the background.
+
+const canvas = document.createElement('canvas');
+document.body.appendChild(canvas);
+canvas.style.cssText = "position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.6;";
+const ctx = canvas.getContext('2d');
+
+// ... [Include Particle logic from the previous artifact here] ...

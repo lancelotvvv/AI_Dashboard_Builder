@@ -1,0 +1,122 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@theme {
+  --color-paper-50: #f8fafc;
+  --color-paper-100: #f1f5f9;
+  --color-tech-blue: #3b82f6;
+  --color-tech-purple: #8b5cf6;
+  --color-tech-mint: #10b981;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  background-color: #f8fafc;
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- THE AURORA BACKDROP --- */
+.aurora-container {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 0;
+  filter: blur(100px);
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.aurora-element {
+  position: absolute;
+  width: 40vw;
+  height: 40vw;
+  border-radius: 50%;
+  animation: aurora 30s infinite linear;
+}
+
+@keyframes aurora {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* --- GLASSMORPHISM COMPONENTS --- */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+/* --- TYPOGRAPHY --- */
+.text-ai-gradient {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-value-gradient {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- GRADIENT BUTTON --- */
+.btn-gradient {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  transition: all 0.2s;
+}
+.btn-gradient:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Remove focus outline on grid items and widget frames */
+.react-grid-item:focus,
+.react-grid-item:focus-visible,
+.glass-card:focus,
+.glass-card:focus-visible {
+  outline: none;
+}
+
+/* Soften the resize handle corner indicator */
+.react-grid-item > .react-resizable-handle::after {
+  border-right: 2px solid rgba(148, 163, 184, 0.4) !important;
+  border-bottom: 2px solid rgba(148, 163, 184, 0.4) !important;
+}
+
+/* Remove all outlines and borders on click */
+.react-grid-item *:focus {
+  outline: none;
+}
+div[tabindex]:focus {
+  outline: none;
+}
+
+/* Fixed page contour */
+.page-contour {
+  box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.3), 0 4px 24px rgba(0, 0, 0, 0.06);
+  background: white;
+}
+
+.page-contour-overflow {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5), 0 4px 24px rgba(239, 68, 68, 0.1);
+}

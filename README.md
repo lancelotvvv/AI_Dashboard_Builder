@@ -1,22 +1,55 @@
 # AI Dashboard Builder
 
-**Why low-code when you have the best coder in the world?**
+> <span style="font-size:1.05em;"><strong>Why low-code when you have the best coder in the world?</strong></span>  
+> <sub><em>Stop dragging. Start shipping.</em></sub>
 
-PowerBI, Tableau, Looker — they all promise "anyone can build dashboards." But anyone who's actually used them knows the truth: you spend more time fighting the tool than building the thing. Custom tooltips? Workaround. Conditional formatting with real logic? Workaround. A chart that doesn't exist in the preset menu? Sorry, not possible.
+---
 
-Meanwhile, AI models have gotten *really* good at writing TypeScript. They can generate Recharts components, wire up data transformations, and produce pixel-perfect layouts — all from a plain English prompt. So why are we still dragging and dropping?
+## ✨ The Problem with “Low-Code”
 
-**AI Dashboard Builder** flips the model. Instead of hiding code behind a GUI, it embraces it. Every widget is a React component. Every chart is real TypeScript you can read, edit, and extend. The AI doesn't fight a low-code abstraction — it writes actual code into a live canvas. And when the AI gets it 90% right, you tweak the last 10% yourself, in the same code editor, with full control.
+PowerBI, Tableau, Looker — they all promise **“anyone can build dashboards.”**  
+But anyone who’s actually used them knows the truth: you spend more time **fighting the tool** than building the thing.
 
-The result: dashboards that do exactly what you want, built in minutes instead of hours.
+- **Custom tooltips?** <span style="color:#d73a49;"><strong>Workaround.</strong></span>  
+- **Conditional formatting with real logic?** <span style="color:#d73a49;"><strong>Workaround.</strong></span>  
+- **A chart that doesn’t exist in the preset menu?** <span style="color:#d73a49;"><strong>Sorry, not possible.</strong></span>
+
+---
+
+## 🚀 The Shift: AI Writes Real Code
+
+Meanwhile, AI models have gotten *really* good at writing **TypeScript**.
+
+They can:
+
+- Generate **Recharts** components  
+- Wire up **data transformations**  
+- Produce **pixel-perfect layouts**  
+- All from a **plain English prompt**
+
+So why are we still dragging and dropping?
+
+---
+
+## 🧠 What Makes This Different
+
+> **AI Dashboard Builder** flips the model.  
+> Instead of hiding code behind a GUI, it embraces it.
+
+✅ **Every widget is a React component**  
+✅ **Every chart is real TypeScript you can read, edit, and extend**  
+✅ The AI doesn’t fight a low-code abstraction — it writes **actual code** into a **live canvas**  
+✅ When the AI gets it **90% right**, you tweak the last **10%** yourself — in the *same* code editor, with full control
+
+> <span style="color:#0969da;"><strong>The result:</strong></span> dashboards that do exactly what you want, built in **minutes** instead of **hours**.
 
 ---
 
 ## How It Works
 
-1. **Describe what you want** — The AI generates widgets, binds data, and arranges the layout
-2. **See it live** — Every change renders instantly on a drag-and-drop grid canvas
-3. **Fine-tune anything** — Toggle Developer Mode to edit the actual rendering code of any widget
+1. **Describe what you want** — The AI generates widgets, binds data, and arranges the layout  
+2. **See it live** — Every change renders instantly on a drag-and-drop grid canvas  
+3. **Fine-tune anything** — Toggle <span style="color:#8250df;"><strong>Developer Mode</strong></span> to edit the actual rendering code of any widget  
 4. **Export & share** — Save as JSON, open in the read-only viewer, or keep iterating
 
 ---
